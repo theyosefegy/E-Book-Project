@@ -1,0 +1,152 @@
+package ebookstore1;
+
+
+
+import ebookstore1.Book;
+import ebookstore1.Author;
+import ebookstore1.EBookStore1;
+import ebookstore1.BlueprintClass;
+import static ebookstore1.connection.Close;
+import java.awt.Color;
+import java.awt.Label;
+import java.awt.TextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
+
+public class Publisher extends BlueprintClass implements ActionListener {
+    
+     // TextFields for publisher attributes
+    private TextField p_codeField = new TextField();
+    private TextField nameField = new TextField();
+    private TextField cityField = new TextField();
+    private TextField phoneField = new TextField();
+
+    // Labels for publisher attributes
+    private Label p_codeLabel = new Label("Publisher ID:");
+    private Label nameLabel = new Label("Name:");
+    private Label cityLabel = new Label("City:");
+    private Label phoneLabel = new Label("Phone:");
+    
+    // Buttons       
+    Publisher() {
+        super("Author", "Book");
+        setTitle("Publisher");
+        
+         
+        // Configure text fields
+        p_codeField.setBounds(110, 120, 200, 30);
+        nameField.setBounds(110, 180, 200, 30);
+        cityField.setBounds(110, 240, 200, 30);
+        phoneField.setBounds(110, 300, 200, 30);
+
+
+        // Configure labels
+        p_codeLabel.setBounds(110, 80, 80, 30);
+        nameLabel.setBounds(110, 150, 80, 30);
+        cityLabel.setBounds(110, 210, 80, 30);
+        phoneLabel.setBounds(110, 270, 110, 30);
+        
+        p_codeLabel.setForeground(Color.WHITE);
+        nameLabel.setForeground(Color.WHITE);
+        cityLabel.setForeground(Color.WHITE);
+        phoneLabel.setForeground(Color.WHITE);
+
+        // Add text fields and labels to the frame
+        add(p_codeLabel);
+        add(nameLabel);
+        add(cityLabel);
+        add(phoneLabel);
+        add(p_codeField);
+        add(nameField);
+        add(cityField);
+        add(phoneField);
+        
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == closeBtn) {
+                Close();
+                System.exit(0);
+        } else if (e.getSource() == nextBtn) {
+            setVisible(false);
+            dispose(); 
+            new Author();
+        } else if (e.getSource() == preBtn) {
+            setVisible(false);
+            dispose(); 
+            new Book();
+        } else if (e.getSource() == clearBtn){
+            p_codeField.setText("");
+            nameField.setText("");
+            cityField.setText("");
+            phoneField.setText("");
+
+            // --------------- INSERT BUTTON -----------------
+
+        } else if (e.getSource() == insertBtn){
+            String p_code = p_codeField.getText(); // int
+            String name = nameField.getText(); // string
+            String city = cityField.getText(); // string 
+            String phone = phoneField.getText(); // string
+
+            String sqlQuery = "INSERT INTO publisher (p_code, name, city, phone) VALUES (" + p_code + ", '" + name + "', '" + city + "', '" + phone + "')";
+
+            boolean result = connection.executeQuary(sqlQuery);
+
+            if (result) {
+                JOptionPane.showMessageDialog(null, "Data Inserted");
+                logText += "Publisher inserted: Code " + p_code + "\n";
+            } else {
+                JOptionPane.showMessageDialog(null, "Something went wrong while inserting the data.");
+            }
+
+            
+            // --------------- UPDATE BUTTON -----------------
+        } else if (e.getSource() == updateBtn){
+            String p_code = p_codeField.getText();
+            String name = nameField.getText();
+            String city = cityField.getText();
+            String phone = phoneField.getText();
+
+            String sqlQuery = "UPDATE publisher SET name='" + name + "', city='" + city + "', phone='" + phone + "' WHERE p_code=" + p_code ;
+
+            boolean result = connection.executeQuary(sqlQuery);
+
+            if (result) {
+                JOptionPane.showMessageDialog(null, "Data Updated");
+                logText += "Publisher updated: Code " + p_code + "\n";
+            } else {
+                JOptionPane.showMessageDialog(null, "Something went wrong while updating the data.");
+            }
+
+
+            
+            // --------------- DELETE BUTTON -----------------
+        } else if (e.getSource() == deleteBtn){
+            String p_code = p_codeField.getText();
+
+            String sqlQuery = "DELETE FROM publisher WHERE p_code=" + p_code;
+
+            boolean result = connection.executeQuary(sqlQuery);
+
+            if (result) {
+                JOptionPane.showMessageDialog(null, "Data Deleted");
+                logText += "Publisher deleted: Code " + p_code + "\n";
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Something went wrong while deleting the data.");
+            }
+
+
+        } else if (e.getSource() == backToNavBtn) {
+            setVisible(false);
+            dispose(); 
+            new EBookStore1();
+            
+        } 
+    }
+    
+    
+}

@@ -1,0 +1,55 @@
+package ebookstore1;
+
+import static ebookstore1.BlueprintClass.logText;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+/**
+ *
+ 
+@author eltanany shop*/
+public class connection {
+    public static Connection con;
+
+    public static void ConnectToSQL(){
+        try{ 
+//            String url = "jdbc:sqlserver://localhost:1433;"
+//    + "databaseName=EbookStoreDB;"
+//    + "user=theyosefegy;"
+//    + "password=123;"
+//    + "encrypt=true;"
+//    + "trustServerCertificate=true";
+        String url = "jdbc:sqlserver://localhost:1433;databaseName=EBookStoreDB;";
+        String username ="theyosefegy";
+        String password ="123";
+        con = DriverManager.getConnection(url, username,password);
+        System.out.println("CONNECTED");
+        } catch (SQLException e){
+            System.out.println(e);
+          }
+        }
+
+        public static void Close () {
+            try {
+                System.out.println("Connection Lost");
+                con.close();
+            } catch (SQLException ex) {
+                System.out.println("ERROR Connection");
+                logText += ex.getMessage() + "\n";
+            }
+        }
+
+        public static boolean executeQuary (String sqlStatement) {
+            try { 
+                Statement stmt = con.createStatement();
+                stmt.execute(sqlStatement);
+                return true;
+            } catch (SQLException e){
+                System.out.println(e);
+                logText += e.getMessage() + "\n";
+                return false;
+        }
+    } 
+}

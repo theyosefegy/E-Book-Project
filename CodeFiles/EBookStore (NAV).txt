@@ -1,0 +1,103 @@
+package ebookstore1;
+
+import ebookstore1.BlueprintClass;
+import static ebookstore1.connection.Close;
+import static ebookstore1.connection.ConnectToSQL;
+import java.awt.Button;
+import java.awt.Label;
+import java.awt.TextArea;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class EBookStore1 extends BlueprintClass implements ActionListener{
+        
+    
+    // Buttons Initialization
+    Button AuthorBtn = new Button("Authors");
+    Button BooksBtn = new Button("Books");
+    Button PublisherBtn = new Button("Publishers");
+    
+    // TextArea : Log
+    Label logAreaLabel = new Label("Log:");
+    TextArea logArea = new TextArea();
+    
+    
+    EBookStore1(){
+        super("Books","Author");
+        setTitle("E-Book Store: Navigator");
+        
+        
+        // Buttons Configuration
+        AuthorBtn.setBounds(200, 125, btnWidth, btnHeight);
+        BooksBtn.setBounds(200, 175, btnWidth, btnHeight);
+        PublisherBtn.setBounds(200, 225, btnWidth, btnHeight);
+        
+        
+        
+        setBtnStyle(AuthorBtn); 
+        setBtnStyle(BooksBtn); 
+        setBtnStyle(PublisherBtn);
+        
+        // Add action listener
+        AuthorBtn.addActionListener(this);
+        BooksBtn.addActionListener(this);
+        PublisherBtn.addActionListener(this);
+        
+        // Log TextArea Configuration
+        logAreaLabel.setBounds(320, 95, 100, 20);
+        logAreaLabel.setFont(myFont);
+        logArea.setBounds(320, 115, 300, 145);
+        logArea.setText(logText);
+        logArea.setEditable(false);
+        
+        
+        // Add 
+        
+        remove(insertBtn);
+        remove(updateBtn);
+        remove(deleteBtn);
+        remove(clearBtn);
+        remove(backToNavBtn);
+        
+        add(PublisherBtn);
+        add(BooksBtn);   
+        add(AuthorBtn);
+        add(logAreaLabel);  
+        add(logArea);
+        
+    }
+    
+    //   Button Event Handling 
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == closeBtn) {
+                Close();
+                System.exit(0);
+        } else if (e.getSource() == nextBtn) {
+            setVisible(false);
+            new Book();
+        } else if (e.getSource() == preBtn) {
+            setVisible(false);
+            new Author();
+        } else if (e.getSource() == AuthorBtn){
+            setVisible(false);
+            new Author();
+        }else if (e.getSource() == BooksBtn){
+            setVisible(false);
+            new Book();
+        }else if (e.getSource() == PublisherBtn){
+            setVisible(false);
+            new Publisher();
+        }
+    }
+    
+
+    public static void main(String[] args) {
+        ConnectToSQL();
+        EBookStore1 GUI = new EBookStore1();      
+    }
+    
+}
+
+

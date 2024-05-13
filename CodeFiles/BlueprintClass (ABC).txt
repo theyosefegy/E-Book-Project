@@ -1,0 +1,113 @@
+package ebookstore1;
+
+import java.awt.Button;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+
+public class BlueprintClass extends Frame implements ActionListener{
+    
+    // this static variable used to store recent activites in the project, like the inserted, deleted, updated data
+    public static String logText = "";
+    
+    // Buttons       
+    protected Button deleteBtn = new Button("Delete");
+    protected Button clearBtn = new Button("Clear");
+    protected Button insertBtn = new Button("Insert");
+    protected Button updateBtn = new Button("Update");    
+    
+    protected Button closeBtn = new Button("Close");
+    protected Button backToNavBtn = new Button("Nav");
+    protected Button nextBtn;
+    protected Button preBtn;
+    
+    public static int WIDTH = 800;
+    public static int HEIGHT = 600;
+    public static int btnWidth = 105;
+    public static int btnHeight = 30;
+    
+    // Button Style Method   
+    public static Font myFont = new Font("Monospaced", Font.PLAIN, 12); // sets the font type
+    
+        // Polymorphism: It is the ability of two different objects to respond to the same
+        //               request message in their own unique way.
+    
+    public static void setBtnStyle(Button arg){
+        arg.setBackground(Color.decode("#E8EAF6"));
+        arg.setFont(myFont);
+    }
+    
+    public static void setBtnStyle(Button arg1, String arg2){
+        arg1.setBackground(Color.decode(arg2));
+        arg1.setFont(myFont);
+    }
+
+
+    
+    // Abstract Method Constructor : Subclasses initializer.
+    BlueprintClass(String nextTitle, String preTitle){
+        setResizable(false);
+        setLayout(null);
+        setBounds(300, 200, WIDTH, HEIGHT);
+        setVisible(true);
+        setBackground(Color.decode("#5F5D9C"));
+        
+
+        //  Buttons Configuration      
+
+        nextBtn = new Button( nextTitle+ "-->");
+        preBtn = new Button("<--" +preTitle );
+        
+        closeBtn.setBounds(400 - btnWidth / 2, 500 - btnHeight / 2, btnWidth, btnHeight);
+        nextBtn.setBounds(550 - btnWidth / 2, 500 - btnHeight / 2, btnWidth, btnHeight);
+        preBtn.setBounds(250 - btnWidth / 2, 500 - btnHeight / 2, btnWidth, btnHeight);
+        backToNavBtn.setBounds(50, 500-btnHeight/2, btnWidth, btnHeight);
+
+        deleteBtn.setBounds(50, 400, btnWidth, btnHeight);
+        clearBtn.setBounds(200, 400, btnWidth, btnHeight);
+        insertBtn.setBounds(350, 400, btnWidth, btnHeight);
+        updateBtn.setBounds(500, 400, btnWidth, btnHeight);
+
+        setBtnStyle(deleteBtn,"#990000");
+        setBtnStyle(backToNavBtn,"#009900");
+
+        setBtnStyle(clearBtn);
+        setBtnStyle(insertBtn);
+        setBtnStyle(updateBtn);
+        
+        setBtnStyle(closeBtn);
+        setBtnStyle(nextBtn);
+        setBtnStyle(preBtn);
+        
+        // add action listener to the buttonss
+        closeBtn.addActionListener(this);
+        nextBtn.addActionListener(this);
+        preBtn.addActionListener(this);
+        backToNavBtn.addActionListener(this);
+        
+        insertBtn.addActionListener(this);
+        updateBtn.addActionListener(this);
+        deleteBtn.addActionListener(this);
+        clearBtn.addActionListener(this);
+        
+        
+        //  Add       
+        add(closeBtn);
+        add(nextBtn);
+        add(preBtn);
+        add(backToNavBtn);
+        add(insertBtn);
+        add(updateBtn);
+        add(deleteBtn);
+        add(clearBtn);
+    }
+    
+    
+    @Override
+    public void actionPerformed(ActionEvent e) {
+       System.out.println("This method will be OVERRIDDEN in other classes.");
+    }
+}
